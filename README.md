@@ -1,4 +1,6 @@
 # Playtime Plugin
+SourceMod plugin.
+Compiled with SourceMod version 1.10.0.6528
 ---
 # Installation
 1. Add the "playtime" entry into your databases.cfg
