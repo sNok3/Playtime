@@ -1,2 +1,6 @@
-# playtime
-This plugin will track your players' playtime on the server and will inform them when they're eligible for applying for a rank
+# Playtime Plugin
+---
+# Installation
+1. Add the "playtime" entry into your databases.cfg
+2. Run the plugin once for the cfg to be generated
+3. Edit your minimum playtime required to apply for a rank in the cfg
