@@ -39,20 +39,20 @@ public void OnPluginStart()
 	sm_playtime_version  =	CreateConVar("sm_playtime_version", 	PLUGIN_VERSION, "Plugin version", 0 | FCVAR_SPONLY | FCVAR_NOTIFY | FCVAR_DONTRECORD);
 	sm_playtime_refresh  =	CreateConVar("sm_playtime_refresh", 	"5", "Time (in seconds) of database updates.", FCVAR_NOTIFY, true, 5.0, true, 60.0);
 	sm_playtime_database =	CreateConVar("sm_playtime_database", 	"playtime", "Database (in databases.cfg) for use (Do not change)!");
-	sm_playtime_prefix   =	CreateConVar("sm_playtime_prefix", 		"{darkred}「FRS」{default}", "Prefix for chat messages.");
+	sm_playtime_prefix   =	CreateConVar("sm_playtime_prefix", 	"{darkred}「FRS」{default}", "Prefix for chat messages.");
 	sm_playtime_website   =	CreateConVar("sm_playtime_website", 	"https://fairside.ro", "The website where your players should apply for a rank.");
-	sm_playtime_table    =	CreateConVar("sm_playtime_table", 		"playtime", "The table in your SQL database to use. (Do not change)!");
-	sm_playtime_team     =	CreateConVar("sm_playtime_team", 		"1","Who to track: 0 = all, 1 = only those who are in the team.",	_, true, 0.0, true, 1.0);
-	sm_playtime_mode     = 	CreateConVar("sm_playtime_mode", 		"0", "Track mode: 0 = when upgraded, 1 = when disconnected.",	_, true, 0.0, true, 1.0);
-	sm_playtime_number   = 	CreateConVar("sm_playtime_number", 		"25", "Number of required hours in order to apply.",	_, true, 0.0, true, 1000.0);
+	sm_playtime_table    =	CreateConVar("sm_playtime_table", 	"playtime", "The table in your SQL database to use. (Do not change)!");
+	sm_playtime_team     =	CreateConVar("sm_playtime_team", 	"1","Who to track: 0 = all, 1 = only those who are in the team.",	_, true, 0.0, true, 1.0);
+	sm_playtime_mode     = 	CreateConVar("sm_playtime_mode", 	"0", "Track mode: 0 = when upgraded, 1 = when disconnected.",	_, true, 0.0, true, 1.0);
+	sm_playtime_number   = 	CreateConVar("sm_playtime_number", 	"25", "Number of required hours in order to apply.",	_, true, 0.0, true, 1000.0);
 	
-	RegConsoleCmd("sm_ore",			Command_MyTime,		"Gets your time on the server");
-	RegConsoleCmd("sm_time", 		Command_MyTime,		"Gets your time on the server");
+	RegConsoleCmd("sm_ore",		Command_MyTime,		"Gets your time on the server");
+	RegConsoleCmd("sm_time", 	Command_MyTime,		"Gets your time on the server");
 	RegConsoleCmd("sm_timeplayed", 	Command_MyTime,		"Gets your time on the server");
 	
 	AutoExecConfig(true, "playtime");
 	
-	sm_playtime_table.		GetString(playtimeTable,		sizeof(playtimeTable));
+	sm_playtime_table.	GetString(playtimeTable,		sizeof(playtimeTable));
 	sm_playtime_database.	GetString(playtimeDatabase,		sizeof(playtimeDatabase));
 	sm_playtime_prefix.  	GetString(playtimePrefix,		sizeof(playtimePrefix));
 	sm_playtime_website.  	GetString(playtimeWebsite,		sizeof(playtimeWebsite));
