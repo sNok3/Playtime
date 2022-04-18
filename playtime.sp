@@ -80,13 +80,13 @@ void TimeCommand(int client, int target)
 
 public void TimeCommand_Callback(Handle owner, Handle hQuery, const char[] error, any data)
 {
-	if (hQuery == INVALID_HANDLE)
+	if(hQuery == INVALID_HANDLE)
 		LogError("%sERROR: Problem with the TimeCommand request! error: %s", sm_playtime_prefix, error);
 		
 	int client = (view_as<int>(data) >> 8), target = view_as<int>(data) - ((view_as<int>(data) >> 8) << 8);
 	static char name[65], time_str[32];
 	
-	if (SQL_FetchRow(hQuery))
+	if(SQL_FetchRow(hQuery))
 	{
 		int playtime = SQL_FetchInt(hQuery, 0);
 		if(playtime/3600 < 1)
@@ -149,7 +149,7 @@ public void IncreaseClientTime(int client, int time)
 
 public void DBConnect(Handle owner, Handle hndl, const char[] error, any data)
 {
-	if (hndl == null)
+	if(hndl == null)
 	{
 		LogError("Connection error! %s", error);
 		return;
@@ -180,7 +180,7 @@ public void ModeChanged(ConVar convar, const char[] oldValue, const char[] newVa
 
 public void TQuery_Callback(Handle owner, Handle hQuery, const char[] error, any data)
 {
-	if (hQuery == INVALID_HANDLE)
+	if(hQuery == INVALID_HANDLE)
 		LogError("ERROR: A problem with SQL query! ID: %i Error: %s", data, error);
 	CloseHandle(hQuery);
 }
