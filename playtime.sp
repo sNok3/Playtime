@@ -52,10 +52,10 @@ public void OnPluginStart()
 	
 	AutoExecConfig(true, "playtime");
 	
-	sm_playtime_table.	GetString(playtimeTable,		sizeof(playtimeTable));
-	sm_playtime_database.	GetString(playtimeDatabase,		sizeof(playtimeDatabase));
-	sm_playtime_prefix.  	GetString(playtimePrefix,		sizeof(playtimePrefix));
-	sm_playtime_website.  	GetString(playtimeWebsite,		sizeof(playtimeWebsite));
+	sm_playtime_table.	GetString(playtimeTable,	sizeof(playtimeTable));
+	sm_playtime_database.	GetString(playtimeDatabase,	sizeof(playtimeDatabase));
+	sm_playtime_prefix.  	GetString(playtimePrefix,	sizeof(playtimePrefix));
+	sm_playtime_website.  	GetString(playtimeWebsite,	sizeof(playtimeWebsite));
 	SQL_TConnect(DBConnect, playtimeDatabase);
 	
 	HookConVarChange(sm_playtime_refresh,	ModeChanged);
