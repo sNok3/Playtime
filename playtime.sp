@@ -28,10 +28,10 @@ Database hDatabase = null;
 
 Handle refreshTimer = null;
 
-char playtimeTable[128], 
-     playtimeDatabase[128],
-	 playtimePrefix[128],
-     playtimeWebsite[128];
+char	playtimeTable[128], 
+     	playtimeDatabase[128],
+     	playtimePrefix[128],
+     	playtimeWebsite[128];
 
 
 public void OnPluginStart()
@@ -52,14 +52,14 @@ public void OnPluginStart()
 	
 	AutoExecConfig(true, "playtime");
 	
-	sm_playtime_table.	 	GetString(playtimeTable,		sizeof(playtimeTable));
+	sm_playtime_table.		GetString(playtimeTable,		sizeof(playtimeTable));
 	sm_playtime_database.	GetString(playtimeDatabase,		sizeof(playtimeDatabase));
 	sm_playtime_prefix.  	GetString(playtimePrefix,		sizeof(playtimePrefix));
 	sm_playtime_website.  	GetString(playtimeWebsite,		sizeof(playtimeWebsite));
 	SQL_TConnect(DBConnect, playtimeDatabase);
 	
 	HookConVarChange(sm_playtime_refresh,	ModeChanged);
-	HookConVarChange(sm_playtime_mode,		ModeChanged);
+	HookConVarChange(sm_playtime_mode,	ModeChanged);
 	ModeChanged(sm_playtime_version, "", "");
 }
 
