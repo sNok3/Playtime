@@ -80,7 +80,6 @@ void TimeCommand(int client, int target)
 
 public void TimeCommand_Callback(Handle owner, Handle hQuery, const char[] error, any data)
 {
-	
 	if (hQuery == INVALID_HANDLE)
 		LogError("%sERROR: Problem with the TimeCommand request! error: %s", sm_playtime_prefix, error);
 		
