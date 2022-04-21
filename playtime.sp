@@ -36,15 +36,15 @@ char g_sPlayTimeTable[128],
 
 public void OnPluginStart()
 {
-	g_ConVar_Playtime_version  	=	CreateConVar("sm_playtime_version", 	PLUGIN_VERSION, "Plugin version", 0 | FCVAR_SPONLY | FCVAR_NOTIFY | FCVAR_DONTRECORD);
-	g_ConVar_Playtime_refresh  	=	CreateConVar("sm_playtime_refresh", 	"5", "Time (in seconds) of database updates.", FCVAR_NOTIFY, true, 5.0, true, 60.0);
-	g_ConVar_Playtime_database 	=	CreateConVar("sm_playtime_database", 	"playtime", "Database (in databases.cfg) for use (Do not change)!");
-	g_ConVar_Playtime_prefix   	=	CreateConVar("sm_playtime_prefix", 	"{darkred}「FRS」{default}", "Prefix for chat messages.");
-	g_ConVar_Playtime_website  	=	CreateConVar("sm_playtime_website", 	"https://fairside.ro", "The website where your players should apply for a rank.");
-	g_ConVar_Playtime_table    	=	CreateConVar("sm_playtime_table", 	"playtime", "The table in your SQL database to use. (Do not change)!");
-	g_ConVar_Playtime_team     	=	CreateConVar("sm_playtime_team", 	"1","Who to track: 0 = all, 1 = only those who are in the team.", _, true, 0.0, true, 1.0);
-	g_ConVar_Playtime_mode     	= 	CreateConVar("sm_playtime_mode", 	"0", "Track mode: 0 = when upgraded, 1 = when disconnected.", _, true, 0.0, true, 1.0);
-	g_ConVar_Playtime_mintime   	= 	CreateConVar("sm_playtime_mintime", 	"25", "Number of required hours in order to apply.", _, true, 0.0, true, 1000.0);
+	g_ConVar_Playtime_version  	= CreateConVar("sm_playtime_version", 	PLUGIN_VERSION, "Plugin version", 0 | FCVAR_SPONLY | FCVAR_NOTIFY | FCVAR_DONTRECORD);
+	g_ConVar_Playtime_refresh  	= CreateConVar("sm_playtime_refresh", 	"5", "Time (in seconds) of database updates.", FCVAR_NOTIFY, true, 5.0, true, 60.0);
+	g_ConVar_Playtime_database 	= CreateConVar("sm_playtime_database", 	"playtime", "Database (in databases.cfg) for use (Do not change)!");
+	g_ConVar_Playtime_prefix   	= CreateConVar("sm_playtime_prefix", 	"{darkred}「FRS」{default}", "Prefix for chat messages.");
+	g_ConVar_Playtime_website  	= CreateConVar("sm_playtime_website", 	"https://fairside.ro", "The website where your players should apply for a rank.");
+	g_ConVar_Playtime_table    	= CreateConVar("sm_playtime_table", 	"playtime", "The table in your SQL database to use. (Do not change)!");
+	g_ConVar_Playtime_team     	= CreateConVar("sm_playtime_team", 	"1","Who to track: 0 = all, 1 = only those who are in the team.", _, true, 0.0, true, 1.0);
+	g_ConVar_Playtime_mode     	= CreateConVar("sm_playtime_mode", 	"0", "Track mode: 0 = when upgraded, 1 = when disconnected.", _, true, 0.0, true, 1.0);
+	g_ConVar_Playtime_mintime   	= CreateConVar("sm_playtime_mintime", 	"25", "Number of required hours in order to apply.", _, true, 0.0, true, 1000.0);
 	
 	RegConsoleCmd("sm_ore",		Command_MyTime,	"Gets your time on the server");
 	RegConsoleCmd("sm_time", 	Command_MyTime,	"Gets your time on the server");
@@ -76,8 +76,7 @@ void TimeCommand(int client, int target)
 	char query[256], steamid[32];
 	GetClientAuthId(target, AuthId_Steam2, steamid, sizeof(steamid));
 
-	if (hDatabase == null)
-	{
+	if (hDatabase == null) {
 		LogError("ERROR: Database is not connected!");
 		return;
 	}
@@ -88,8 +87,7 @@ void TimeCommand(int client, int target)
 
 public void TimeCommand_Callback(Database database, DBResultSet result, char[] error, any data)
 {
-	if (database == null || result == null)
-	{
+	if (database == null || result == null) {
 		LogError("ERROR: Query execution failed: %s", error);
 		return;
 	}
@@ -97,8 +95,7 @@ public void TimeCommand_Callback(Database database, DBResultSet result, char[] e
 	int client = (view_as<int>(data) >> 8), target = view_as<int>(data) - ((view_as<int>(data) >> 8) << 8);
 	char name[MAX_NAME_LENGTH], time_str[32];
 	
-	if (result.FetchRow())
-	{
+	if (result.FetchRow()) {
 		int playtime = result.FetchInt(0);
 		if (playtime/3600 < 1)
 			FormatTime(time_str, sizeof(time_str), "%M:%S", playtime);
@@ -136,8 +133,7 @@ public void OnClientDisconnect(int client)
 
 public Action UpdateTimes(Handle timer)
 {
-	for (int i=1; i <= MaxClients && IsClientInGame(i); i++)
-	{
+	for (int i=1; i <= MaxClients && IsClientInGame(i); i++) {
 		if (!IsFakeClient(i) && IsClientAuthorized(i) && !(g_ConVar_Playtime_team.IntValue == 1 && GetClientTeam(i) < 2))
 			IncreaseClientTime(i, g_ConVar_Playtime_refresh.IntValue);
 	}
