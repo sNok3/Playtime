@@ -14,15 +14,15 @@ public Plugin myinfo =
 	url = "https://fairside.ro"
 }
 
-ConVar g_ConVar_Playtime_refresh = null,
-	   g_ConVar_Playtime_database = null,
-	   g_ConVar_Playtime_prefix = null,
-	   g_ConVar_Playtime_website = null,
-	   g_ConVar_Playtime_table = null,
-	   g_ConVar_Playtime_team = null,
-	   g_ConVar_Playtime_version = null,
-	   g_ConVar_Playtime_mode = null,
-	   g_ConVar_Playtime_mintime =	null;
+ConVar	g_ConVar_Playtime_refresh 	= null,
+	g_ConVar_Playtime_database 	= null,
+	g_ConVar_Playtime_prefix 	= null,
+	g_ConVar_Playtime_website 	= null,
+	g_ConVar_Playtime_table 	= null,
+	g_ConVar_Playtime_team 		= null,
+	g_ConVar_Playtime_version 	= null,
+	g_ConVar_Playtime_mode 		= null,
+	g_ConVar_Playtime_mintime 	= null;
 
 Database hDatabase = null;
 
@@ -30,7 +30,7 @@ Handle g_hTimer = null;
 
 char g_sPlayTimeTable[128], 
      g_sPlaytimeDatabase[128],
-	 g_sPlaytimePrefix[128],
+     g_sPlaytimePrefix[128],
      g_sPlaytimeWebsite[128];
 
 
@@ -39,20 +39,20 @@ public void OnPluginStart()
 	g_ConVar_Playtime_version  	=	CreateConVar("sm_playtime_version", 	PLUGIN_VERSION, "Plugin version", 0 | FCVAR_SPONLY | FCVAR_NOTIFY | FCVAR_DONTRECORD);
 	g_ConVar_Playtime_refresh  	=	CreateConVar("sm_playtime_refresh", 	"5", "Time (in seconds) of database updates.", FCVAR_NOTIFY, true, 5.0, true, 60.0);
 	g_ConVar_Playtime_database 	=	CreateConVar("sm_playtime_database", 	"playtime", "Database (in databases.cfg) for use (Do not change)!");
-	g_ConVar_Playtime_prefix   	=	CreateConVar("sm_playtime_prefix", 		"{darkred}「FRS」{default}", "Prefix for chat messages.");
+	g_ConVar_Playtime_prefix   	=	CreateConVar("sm_playtime_prefix", 	"{darkred}「FRS」{default}", "Prefix for chat messages.");
 	g_ConVar_Playtime_website  	=	CreateConVar("sm_playtime_website", 	"https://fairside.ro", "The website where your players should apply for a rank.");
-	g_ConVar_Playtime_table    	=	CreateConVar("sm_playtime_table", 		"playtime", "The table in your SQL database to use. (Do not change)!");
-	g_ConVar_Playtime_team     	=	CreateConVar("sm_playtime_team", 		"1","Who to track: 0 = all, 1 = only those who are in the team.", _, true, 0.0, true, 1.0);
-	g_ConVar_Playtime_mode     	= 	CreateConVar("sm_playtime_mode", 		"0", "Track mode: 0 = when upgraded, 1 = when disconnected.", _, true, 0.0, true, 1.0);
-	g_ConVar_Playtime_mintime   = 	CreateConVar("sm_playtime_mintime", 	"25", "Number of required hours in order to apply.", _, true, 0.0, true, 1000.0);
+	g_ConVar_Playtime_table    	=	CreateConVar("sm_playtime_table", 	"playtime", "The table in your SQL database to use. (Do not change)!");
+	g_ConVar_Playtime_team     	=	CreateConVar("sm_playtime_team", 	"1","Who to track: 0 = all, 1 = only those who are in the team.", _, true, 0.0, true, 1.0);
+	g_ConVar_Playtime_mode     	= 	CreateConVar("sm_playtime_mode", 	"0", "Track mode: 0 = when upgraded, 1 = when disconnected.", _, true, 0.0, true, 1.0);
+	g_ConVar_Playtime_mintime   	= 	CreateConVar("sm_playtime_mintime", 	"25", "Number of required hours in order to apply.", _, true, 0.0, true, 1000.0);
 	
-	RegConsoleCmd("sm_ore",			Command_MyTime,	"Gets your time on the server");
-	RegConsoleCmd("sm_time", 		Command_MyTime,	"Gets your time on the server");
+	RegConsoleCmd("sm_ore",		Command_MyTime,	"Gets your time on the server");
+	RegConsoleCmd("sm_time", 	Command_MyTime,	"Gets your time on the server");
 	RegConsoleCmd("sm_timeplayed", 	Command_MyTime,	"Gets your time on the server");
 	
 	AutoExecConfig(true, "playtime");
 	
-	g_ConVar_Playtime_table.	GetString(g_sPlayTimeTable,		sizeof(g_sPlayTimeTable));
+	g_ConVar_Playtime_table.	GetString(g_sPlayTimeTable,	sizeof(g_sPlayTimeTable));
 	g_ConVar_Playtime_database.	GetString(g_sPlaytimeDatabase,	sizeof(g_sPlaytimeDatabase));
 	g_ConVar_Playtime_prefix.  	GetString(g_sPlaytimePrefix,	sizeof(g_sPlaytimePrefix));
 	g_ConVar_Playtime_website. 	GetString(g_sPlaytimeWebsite,	sizeof(g_sPlaytimeWebsite));
