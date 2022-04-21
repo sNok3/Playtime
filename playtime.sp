@@ -4,13 +4,13 @@
 #include <sourcemod>
 #include <multicolors>
 
-#define PLUGIN_VERSION "1.0.0"
+#define PLUGIN_VERSION "1.1.0"
 public Plugin myinfo = 
 {
 	name = "[SM] Advanced hour system",
 	author = "sNok3",
 	description = "Advanced playtime tracker",
-	version = "1.0",
+	version = "1.1",
 	url = "https://fairside.ro"
 }
 
