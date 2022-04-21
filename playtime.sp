@@ -151,8 +151,7 @@ public void IncreaseClientTime(int client, int time)
 	GetClientName(client, name, sizeof(name));
 	GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
 	
-	if (hDatabase == null)
-	{
+	if (hDatabase == null) {
 		LogError("ERROR: Database is not connected!");
 		return;
 	}
