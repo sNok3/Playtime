@@ -4,13 +4,13 @@
 #include <sourcemod>
 #include <multicolors>
 
-#define PLUGIN_VERSION "1.1.0"
+#define PLUGIN_VERSION "1.1.2"
 public Plugin myinfo = 
 {
 	name = "[SM] Advanced hour system",
 	author = "sNok3",
 	description = "Advanced playtime tracker",
-	version = "1.1",
+	version = "1.1.2",
 	url = "https://fairside.ro"
 }
 
@@ -57,8 +57,7 @@ public void OnPluginStart()
 	g_ConVar_Playtime_prefix.  	GetString(g_sPlaytimePrefix,	sizeof(g_sPlaytimePrefix));
 	g_ConVar_Playtime_website. 	GetString(g_sPlaytimeWebsite,	sizeof(g_sPlaytimeWebsite));
 	
-	if(hDatabase == null)
-		Database.Connect(DBConnect, g_sPlaytimeDatabase);
+	Database.Connect(DBConnect, g_sPlaytimeDatabase);
 	
 	HookConVarChange(g_ConVar_Playtime_refresh,	ModeChanged);
 	HookConVarChange(g_ConVar_Playtime_mode,	ModeChanged);
@@ -68,6 +67,7 @@ public void OnPluginStart()
 public Action Command_MyTime(int client, int args)
 {
 	TimeCommand(client, client);
+	
 	return Plugin_Handled;
 }
 
@@ -92,18 +92,18 @@ public void TimeCommand_Callback(Database database, DBResultSet result, char[] e
 		return;
 	}
 		
-	int client = (view_as<int>(data) >> 8), target = view_as<int>(data) - ((view_as<int>(data) >> 8) << 8);
-	char name[MAX_NAME_LENGTH], time_str[32];
+	int client = (view_as<int>(data) >> 8);
+	char time_str[32];
 	
 	if (result.FetchRow()) {
 		int playtime = result.FetchInt(0);
+		
 		if (playtime/3600 < 1)
 			FormatTime(time_str, sizeof(time_str), "%M:%S", playtime);
 		else
 			FormatTime(time_str, sizeof(time_str), ":%M:%S", playtime);
-		if (client != target)
-			GetClientName(target, name, sizeof(name));
-		else if (GetUserAdmin(client) == INVALID_ADMIN_ID){
+
+		if (GetUserAdmin(client) == INVALID_ADMIN_ID){
 			if(playtime/3600 == g_ConVar_Playtime_mintime.IntValue){
 				CPrintToChat(client, "{darkred}============================================================================================");
 				CPrintToChat(client, "%s Felicitari! Ai atins numarul de ore necesare pentru a aplica pentru functia de {darkred}Helper{default}!", g_sPlaytimePrefix);
@@ -116,6 +116,7 @@ public void TimeCommand_Callback(Database database, DBResultSet result, char[] e
 				CPrintToChat(client, "{darkred}============================================================================================");
 			}
 		}
+		
 		if (playtime/3600 < 1)
 			CPrintToChatAll("%s {darkred}%N{default} has spent: {green}%s {default}minute(s) on the server", g_sPlaytimePrefix, client, time_str);
 		else if (playtime/3600 == 1)
@@ -137,18 +138,13 @@ public Action UpdateTimes(Handle timer)
 		if (!IsFakeClient(i) && IsClientAuthorized(i) && !(g_ConVar_Playtime_team.IntValue == 1 && GetClientTeam(i) < 2))
 			IncreaseClientTime(i, g_ConVar_Playtime_refresh.IntValue);
 	}
+	
 	return Plugin_Continue;
 }
 
 public void IncreaseClientTime(int client, int time)
 {
-	char name[MAX_NAME_LENGTH], steamid[32], query[256];
-
-	int lenght = strlen(name) * 2 + 1;
-	char[] escapedName = new char[lenght];
-	hDatabase.Escape(name, escapedName, lenght);
-	
-	GetClientName(client, name, sizeof(name));
+	char steamid[32], query[256];
 	GetClientAuthId(client, AuthId_Steam2, steamid, sizeof(steamid));
 	
 	if (hDatabase == null) {
@@ -156,7 +152,7 @@ public void IncreaseClientTime(int client, int time)
 		return;
 	}
 
-	hDatabase.Format(query, sizeof(query), "INSERT INTO %s (steamid, name, playtime) VALUES (\"%s\",\"%s\", %i) ON DUPLICATE KEY UPDATE name=VALUES(name),playtime=playtime+VALUES(playtime)", g_sPlayTimeTable, steamid, escapedName, time);
+	hDatabase.Format(query, sizeof(query), "INSERT INTO %s (steamid, name, playtime) VALUES (\"%s\",\"%N\", %i) ON DUPLICATE KEY UPDATE name=VALUES(name),playtime=playtime+VALUES(playtime)", g_sPlayTimeTable, steamid, client, time);
 	hDatabase.Query(TQuery_Callback, query, 1);
 }
 
