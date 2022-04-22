@@ -179,10 +179,10 @@ public void ModeChanged(ConVar convar, const char[] oldValue, const char[] newVa
 		g_hTimer = CreateTimer(g_ConVar_Playtime_refresh.FloatValue, UpdateTimes, _, TIMER_REPEAT);
 }
 
-public void TQuery_Callback(Handle owner, Handle hQuery, const char[] error, any data)
+public void TQuery_Callback(Database database, DBResultSet result, char[] error, any data)
 {
-	if (hQuery == INVALID_HANDLE)
+	if (result == INVALID_HANDLE)
 		LogError("ERROR: problem with an SQL query! ID: %i Error: %s", data, error);
 
-	delete hQuery;
+	delete result;
 }
