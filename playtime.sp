@@ -158,11 +158,12 @@ public void IncreaseClientTime(int client, int time)
 
 public void DBConnect(Database database, const char[] error, any data)
 {
-	if (database != null) {
-		LogError("ERROR: Database connection failure: %s", error);
+	if (database == INVALID_HANDLE) {
+		LogError("ERROR: Database failure: %s", error);
 		return;
-	} else
-		hDatabase = database;
+    	}
+
+	hDatabase = database;
 	
 	char query[256];
 	
