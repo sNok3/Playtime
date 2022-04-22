@@ -4,13 +4,13 @@
 #include <sourcemod>
 #include <multicolors>
 
-#define PLUGIN_VERSION "1.1.2"
+#define PLUGIN_VERSION "1.1.3"
 public Plugin myinfo = 
 {
 	name = "[SM] Advanced hour system",
 	author = "sNok3",
 	description = "Advanced playtime tracker",
-	version = "1.1.2",
+	version = "1.1.3",
 	url = "https://fairside.ro"
 }
 
@@ -167,7 +167,7 @@ public void DBConnect(Database database, const char[] error, any data)
 	
 	char query[256];
 	
-	hDatabase.Format(query, sizeof(query), "CREATE TABLE IF NOT EXISTS `%s` (`name` varchar(64) CHARACTER SET utf8 NOT NULL, `steamid` varchar(64) NOT NULL, `playtime` int(64) NOT NULL, UNIQUE KEY `steamid` (`steamid`))", g_sPlayTimeTable);
+	hDatabase.Format(query, sizeof(query), "CREATE TABLE IF NOT EXISTS `%s` (`name` varchar(64) NOT NULL, `steamid` varchar(64) NOT NULL, `playtime` int(64) NOT NULL, UNIQUE KEY `steamid` (`steamid`)) ENGINE=InnoDB DEFAULT CHARSET=utf8", g_sPlayTimeTable);
 	hDatabase.Query(TQuery_Callback, query, 2);
 }
 
